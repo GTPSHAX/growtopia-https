@@ -20,7 +20,7 @@ app.use(require(path.join(__dirname, 'middleware', 'CacheHandler.js')));
 app.use(require(path.join(__dirname,'security', 'IPBlacklist.js')));
 app.use(require(path.join(__dirname,'security', 'RequestSizeLimiter.js')));
 app.use(require(path.join(__dirname,'security', 'RateLimiter.js')));
-app.use(require(path.join(__dirname,'security', 'XSSProtection.js')));
+app.use(require(path.join(__dirname,'security', 'XssProtection.js')));
 
 // setting the routes
 app.use('/', require(path.join(__dirname,'routes', 'IndexRoute.js')));
