@@ -43,7 +43,6 @@ const sniCallback = (serverName, callback) => {
 const serverOptions = {
     cert: sniDefaultCert,
     key: sniDefaultKey,
-    ca: sniDefaultChain,
     SNICallback: sniCallback,
     keepAliveTimeout: 60000, // 60 seconds
     headersTimeout: 65000, // 65 seconds
