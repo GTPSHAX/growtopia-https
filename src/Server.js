@@ -15,9 +15,8 @@ function safeReadFileSync(filePath) {
 }
 
 // Default certificate for SNI
-const sniDefaultCert = safeReadFileSync(path.join(__dirname, '..', 'certs', 'osm.growplus.asia', 'osm.growplus.asia-crt.pem'));
-const sniDefaultKey = safeReadFileSync(path.join(__dirname, '..', 'certs', 'osm.growplus.asia', 'osm.growplus.asia-key.pem'));
-const sniDefaultChain = safeReadFileSync(path.join(__dirname, '..', 'certs', 'osm.growplus.asia', 'osm.growplus.asia-chain-only.pem'));
+const sniDefaultCert = safeReadFileSync(path.join(__dirname, '..', 'certs', 'osm.growplus.asia', 'fullchain.pem'));
+const sniDefaultKey = safeReadFileSync(path.join(__dirname, '..', 'certs', 'osm.growplus.asia', 'privkey.pem'));
 
 /**
  * SNI callback for dynamic certificate selection
@@ -26,16 +25,14 @@ const sniCallback = (serverName, callback) => {
     console.log(`[SNI] Requested for: ${serverName}`);
     let cert = sniDefaultCert;
     let key = sniDefaultKey;
-    let ca = sniDefaultChain;
 
     if (serverName === 'www.growtopia1.com' || serverName === 'www.growtopia2.com') {
         cert = safeReadFileSync(path.join(__dirname, '..', 'certs', 'growtopia1.com', 'gt-crt.pem'));
         key = safeReadFileSync(path.join(__dirname, '..', 'certs', 'growtopia1.com', 'gt-key.pem'));
-        ca = undefined;
     }
 
     try {
-        const context = tls.createSecureContext({ cert, key, ca });
+        const context = tls.createSecureContext({ cert, key });
         callback(null, context);
     } catch (err) {
         console.error(`[SNI] Failed to create secure context for ${serverName}:`, err);
