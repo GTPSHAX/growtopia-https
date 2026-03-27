@@ -1,2 +1,1 @@
-cd src
-node server
+npm start
