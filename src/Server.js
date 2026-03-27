@@ -15,9 +15,9 @@ function safeReadFileSync(filePath) {
 }
 
 // Default certificate for SNI
-const sniDefaultCert = safeReadFileSync(path.join(__dirname, '..', 'certs', 'osm.growplus.asia', 'osm.growplus.asia-crt.pem'));
-const sniDefaultKey = safeReadFileSync(path.join(__dirname, '..', 'certs', 'osm.growplus.asia', 'osm.growplus.asia-key.pem'));
-const sniDefaultChain = safeReadFileSync(path.join(__dirname, '..', 'certs', 'osm.growplus.asia', 'osm.growplus.asia-chain-only.pem'));
+const sniDefaultCert = safeReadFileSync(path.join(__dirname, '..', 'certs', 'growtopia1.com-crt.pem'));
+const sniDefaultKey = safeReadFileSync(path.join(__dirname, '..', 'certs', 'growtopia1.com-key.pem'));
+const sniDefaultChain = null; // No chain for default, can be set if needed
 
 /**
  * SNI callback for dynamic certificate selection
@@ -28,11 +28,12 @@ const sniCallback = (serverName, callback) => {
     let key = sniDefaultKey;
     let ca = sniDefaultChain;
 
-    if (serverName === 'www.growtopia1.com' || serverName === 'www.growtopia2.com') {
-        cert = safeReadFileSync(path.join(__dirname, '..', 'certs', 'growtopia1.com', 'gt-crt.pem'));
-        key = safeReadFileSync(path.join(__dirname, '..', 'certs', 'growtopia1.com', 'gt-key.pem'));
-        ca = undefined;
-    }
+    // Handle specific domains here if needed, for example:
+    // if (serverName === 'example.com') {
+    //     cert = safeReadFileSync(path.join(__dirname, '..', 'certs', 'example.com-crt.pem'));
+    //     key = safeReadFileSync(path.join(__dirname, '..', 'certs', 'example.com-key.pem'));
+    //     ca = null; // Set if there's a chain
+    // }
 
     try {
         const context = tls.createSecureContext({ cert, key, ca });
